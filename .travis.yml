@@ -25,7 +25,7 @@ deploy:
   provider: elasticbeanstalk
   region: "eu-west-3"
   app: "multi-docker"
-  env: "DockerReact-env"
+  env: "MultiDocker-env"
   bucket_name: "elasticbeanstalk-eu-west-3-607205334911" # go to Services -> S3 and look for the corresponding bucket.
   bucket_path: "docker-multi"  #same as app name
   on:
