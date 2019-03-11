@@ -1,0 +1,22 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t digsim/react-test -f ./client/Dockerfile.dev ./client
+
+scripts:
+  - docker run digism/react-test npm test -- --coverage
+
+after_success:
+  - docker build -t digsim/multi-client ./client
+  - docker build -t digsim/multi-nginx ./nginx
+  - docker build -t digsim/multi-server ./server
+  - docker build -t digsim/multi-worker ./worker
+  # Log in to the docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  # Take those images and push them to docker hub
+  - docker push digsim/multi-client
+  - docker push digsim/multi-nginx
+  - docker push digsim/multi-server
+  - docker push digsim/multi-worker
